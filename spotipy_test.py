@@ -8,8 +8,8 @@ import traceback
 from pprint import pprint
 
 user_id = secrets.user_id
-client_id = "5b98d37c9f264d82bb68a782fe9614d4"
-client_sec = "a30f72c3d5f14c9a9573f9f689a4ed30"
+client_id = secrets.client_id
+client_sec = secrets.client_sec
 redirect_uri = "https://www.google.com/"
 scope = "user-read-recently-played"
 IS_AD = False
@@ -17,33 +17,6 @@ current_track = ""
 token = ""
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_sec))
-
-# None=null, True=true, False=false
-ad = {
-    "timestamp": 1645797617969,
-    "context": {
-        "external_urls": {
-            "spotify": "https://open.spotify.com/playlist/7htLq158nYmIyIHsgWdHhm"
-        },
-        "href": "https://api.spotify.com/v1/playlists/7htLq158nYmIyIHsgWdHhm",
-        "type": "playlist",
-        "uri": "spotify:playlist:7htLq158nYmIyIHsgWdHhm"
-    },
-    "progress_ms": 10135,
-    "item": None,
-    "currently_playing_type": "ad",
-    "actions": {
-        "disallows": {
-            "pausing": True,
-            "seeking": True,
-            "skipping_prev": True,
-            "skipping_next": True,
-            "interrupting_playback": True,
-            "transferring_playback": True
-        }
-    },
-    "is_playing": False
-}
 
 
 def search():
@@ -79,14 +52,14 @@ def currently_playing():
     play_type = current_play_type(json_resp)
     # print(type(play_type))
     if play_type == 'ad':
-        print(play_type)
         IS_AD = True
         print("AYO AD FOUND😱", IS_AD)
         open_close_spotify()
         time.sleep(3)
     elif play_type is None:
-        print("nothing is playing")
+        # print("nothing is playing")
         current_track_info = None
+        time.sleep(2)
     else:
         IS_AD = False
         current_track_info = slicing(json_resp)

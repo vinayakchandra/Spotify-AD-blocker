@@ -64,9 +64,9 @@ def open_spotify_win():
     pyautogui.press('space')
     time.sleep(0.5)
     pyautogui.hotkey('ctrl', 'right')
-    time.sleep(0.5)
-    # print("Back to your app 👌")
-    # pyautogui.hotkey('command', 'tab')  # not working
+    time.sleep(0.8)
+    print("Back to your app 👌")
+    pyautogui.hotkey('command', 'tab')  # not working
     # time.sleep(0.5)
     # pyautogui.hotkey('command', 'tab')
     print()
