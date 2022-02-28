@@ -1,30 +1,22 @@
 from open_close_spotify import close_spotify, open_spotify  # pip install pyautogui
 import spotipy  # pip install spotipy
+import secrets
 import spotipy.util as util
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from spotipy.oauth2 import SpotifyClientCredentials
 import time
 import traceback
 from pprint import pprint
 
+user_id = secrets.user_id
 client_id = "5b98d37c9f264d82bb68a782fe9614d4"
 client_sec = "a30f72c3d5f14c9a9573f9f689a4ed30"
-user_id = "bj06aocs2g1c00djtv410zlt5"
-redirect_uri = "https://github.com/vinayakchandra/CLOCK"
-# scope = 'user-read-playback-state streaming ugc-image-upload playlist-modify-public'
+redirect_uri = "https://www.google.com/"
 scope = "user-read-recently-played"
-SCOPE = 'user-library-read'
-CACHE = '.spotipyoauthcache'
-IS_AD = 0
+IS_AD = False
 current_track = ""
 token = ""
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_sec))
-
-# token = SpotifyClientCredentials(client_id=client_id, client_secret=client_sec)
-# cache_token = token.get_access_token(as_dict=False)
-# print(cache_token)  # token
-
-# spotify = spotipy.Spotify(cache_token)
 
 # None=null, True=true, False=false
 ad = {
@@ -62,13 +54,15 @@ def search():
 
 
 def saved_tracks():
-    results = sp.current_user_saved_tracks(limit=20)
+    results = sp.current_user_saved_tracks(limit=10)
     for idx, item in enumerate(results['items']):
         track = item['track']
         print(idx, track['artists'][0]['name'], " – ", track['name'])
 
 
 def currently_playing():
+    """returns the currently playing track"""
+    current_track_info = None
     scope = 'user-read-currently-playing'
     # scope = 'user-read-playback-state'
     # works as well
@@ -83,23 +77,20 @@ def currently_playing():
     json_resp = current_track
     # print(json_resp)
     play_type = current_play_type(json_resp)
-
+    # print(type(play_type))
     if play_type == 'ad':
         print(play_type)
         IS_AD = True
         print("AYO AD FOUND😱", IS_AD)
         open_close_spotify()
         time.sleep(3)
+    elif play_type is None:
+        print("nothing is playing")
+        current_track_info = None
     else:
         IS_AD = False
         current_track_info = slicing(json_resp)
 
-    # play_type = json_resp['currently_playing_type']
-
-    # print(IS_AD)
-
-    # print(current_track)
-    # pprint(current_track_info, indent=2)
     return current_track_info
 
 
@@ -120,10 +111,15 @@ def slicing(json_resp):
 
 
 def current_play_type(json_resp):
-    return json_resp['currently_playing_type']
+    """returns currently playing type information"""
+    try:
+        return json_resp['currently_playing_type']
+    except:
+        return None
 
 
 def open_close_spotify():
+    """open and closes spotify"""
     print("closing-opening-spotify")
     close_spotify()
     open_spotify()
@@ -134,20 +130,18 @@ def main():
     while True:
         try:
             # print("IN TRY🤩")
-            if not IS_AD:
+            if not IS_AD:  # IS_AD = False
                 current_track_info = currently_playing()
-
-                if current_track_info['id'] != current_track_id:
-                    pprint(current_track_info, indent=4)
-                    current_track_id = current_track_info['id']
-                time.sleep(3)
+                if current_track_info is not None:  # current_track_info is not None(empty string)
+                    if current_track_info['id'] != current_track_id:
+                        pprint(current_track_info, indent=4)
+                        current_track_id = current_track_info['id']
+                    # time.sleep(3)
         except Exception:  # exception
             print(current_track)
             traceback.print_exc()
             # time.sleep(2)
             print("IN EXCEPT❌ ")
-            print("AD FOUND")
-            # open_close_spotify()
 
 
 if __name__ == '__main__':

@@ -75,6 +75,3 @@ def open_spotify_win():
 if __name__ == '__main__':
     close_spotify()
     open_spotify()
-'''
-The application cannot be opened for an unexpected reason, error=Error Domain=NSOSStatusErrorDomain Code=-600 "procNotFound: no eligible process with specified descriptor" UserInfo={_LSLine=379, _LSFunction=_LSAnnotateAndSendAppleEventWithOptions}
-'''
