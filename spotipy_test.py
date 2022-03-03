@@ -10,7 +10,7 @@ from pprint import pprint
 user_id = secrets.user_id
 client_id = secrets.client_id
 client_sec = secrets.client_sec
-redirect_uri = "https://www.google.com/"
+redirect_uri = secrets.redirect_uri
 scope = "user-read-recently-played"
 IS_AD = False
 current_track = ""
