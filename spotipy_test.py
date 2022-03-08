@@ -37,10 +37,6 @@ def currently_playing():
     """returns the currently playing track"""
     current_track_info = None
     scope = 'user-read-currently-playing'
-    # scope = 'user-read-playback-state'
-    # works as well
-    # auth_manager = SpotifyOAuth(scope=scope)
-    # spotify = spotipy.Spotify(auth_manager=auth_manager)
 
     # Correct token
     token = util.prompt_for_user_token(user_id, scope, client_id=client_id, client_secret=client_sec, redirect_uri=redirect_uri)

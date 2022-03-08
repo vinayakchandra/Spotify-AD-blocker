@@ -3,6 +3,9 @@ import pyautogui  # pip install pyautogui
 import os
 import time
 import platform
+import secrets
+
+username = secrets.username_device
 
 platform_os = platform.system()
 
@@ -57,7 +60,7 @@ def close_spotify_win():
 # for windows
 def open_spotify_win():
     # os.system(r"start C:\Users\vinay\AppData\Roaming\Spotify\Spotify.exe")
-    os.system(r"start AppData\Roaming\Spotify\Spotify.exe")
+    os.system(fr"start C:\Users\{username}\AppData\Roaming\Spotify\Spotify.exe")
     time.sleep(1)
 
     print("next song🤙")
