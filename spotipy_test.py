@@ -6,7 +6,10 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import time
 import traceback
 from pprint import pprint
+from datetime import datetime
 
+now = datetime.now()
+current_time = now.strftime(" %I : %M : %S   %p ")
 user_id = secrets.user_id
 client_id = secrets.client_id
 client_sec = secrets.client_sec
@@ -110,7 +113,7 @@ def main():
             print(current_track)
             traceback.print_exc()
             # time.sleep(2)
-            print("IN EXCEPT❌ ")
+            print("IN EXCEPT❌   ", current_time)
 
 
 if __name__ == '__main__':
